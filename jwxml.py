@@ -8,6 +8,7 @@ jwxml: Various Python classes for parsing JWST-related information in XML files
 """
 import numpy as np
 import matplotlib.pyplot as plt
+import collections
 try:
     from lxml import etree
     HAVE_LXML = True
@@ -98,7 +99,7 @@ class Segment_Update(object):
             # or the code in ./segment_control/mcs_hexapod_obj__define.pro
 
 
-class SUR(object):
+class SUR(collections.Sequence):
     """ Class for parsing/manipulating Segment Update Request files
 
     """
@@ -120,6 +121,12 @@ class SUR(object):
             for update in grp.iter('UPDATE'):
                 myupdates.append(Segment_Update(update))
             self.groups.append(myupdates)
+
+    def __len__(self):
+        return len(self.groups)
+
+    def __getitem__(self, item):
+        return self.groups[item]
 
     def __str__(self):
         outstr = "SUR %s\n" % self.filename #, type=%s, coords=%s\n" % (self.filename, 'absolute' if self.absolute else 'relative', self.coord)
