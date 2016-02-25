@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SEGMENT_UPDATE_REQUEST xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" creator="Someone" date="2018-01-01" operational="false" time="23:11:11.11111" version="5.0" xsi:noNamespaceSchemaLocation="XYZ.xsd">
+    <CONFIGURATION_NAME>TEST</CONFIGURATION_NAME>
+    <CORRECTION_ID>E2018111111</CORRECTION_ID>
+    <GROUP id="1">
+        <UPDATE id="1" seg_id="SM-19" type="pose" absolute="false" coord="local" stage_type="none">
+            <X_TRANS units="meters">0.0</X_TRANS>
+            <Y_TRANS units="meters">0.0</Y_TRANS>
+            <PISTON units="meters">1.0E-4</PISTON>
+            <X_TILT units="radians">0.0</X_TILT>
+            <Y_TILT units="radians">0.0</Y_TILT>
+            <CLOCK units="radians">0.0</CLOCK>
+        </UPDATE>
+    </GROUP>
+</SEGMENT_UPDATE_REQUEST>
