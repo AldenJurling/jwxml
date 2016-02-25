@@ -1,10 +1,7 @@
 import os.path
+import pkg_resources
 
-
-#FOCUS_SAMPLE_PATH = './test_surs/sm_defocus.xml'
-
-SUR_ROOT = os.path.join(os.path.dirname(__file__), 'test_surs')
-FOCUS_SAMPLE_PATH = os.path.join(SUR_ROOT, 'sm_defocus.xml')
+FOCUS_SAMPLE_PATH = pkg_resources.resource_filename('jwxml.test', 'test_surs/sm_defocus.xml')
 
 from jwxml.jwxml import SUR
 
