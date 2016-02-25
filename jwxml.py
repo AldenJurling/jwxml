@@ -40,7 +40,7 @@ class Segment_Update(object):
         self.type = type_
         self.segment = segment
         self.absolute = absolute
-        self.coords = coords
+        self.coord = coords
         self.stage_type = stage_type
         self.units = units
         self.moves = moves
