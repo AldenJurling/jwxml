@@ -34,23 +34,40 @@ except ImportError:
 class Segment_Update(object):
     """ Class for representing one single mirror update (will be inside of groups in SURs)
     """
-    def __init__(self, xmlnode):
+
+    def __init__(self, id, type_, segment, absolute, coords, stage_type, units, moves):
+        self.id = id
+        self.type = type_
+        self.segment = segment
+        self.absolute = absolute
+        self.coords = coords
+        self.stage_type = stage_type
+        self.units = units
+        self.moves = moves
+
+    @classmethod
+    def from_node(cls, xmlnode):
         if xmlnode.attrib['type'] != 'pose': raise NotImplemented("Only Pose updates supported yet")
 
-        self.id = int(xmlnode.attrib['id'])
-        self.type = xmlnode.attrib['type']
-        self.segment = xmlnode.attrib['seg_id'][0:2]
-        self.absolute = xmlnode.attrib['absolute'] =='true'
-        self.coord= xmlnode.attrib['coord'] #local or global
-        self.stage_type= xmlnode.attrib['stage_type']  # recenter_fine, fine_only, none
-
-        self.units = dict()
-        self.moves = dict()
+        units = dict()
+        moves = dict()
         for move in iterchildren(xmlnode):
             #print(move.tag, move.text )
-            self.moves[move.tag] =float(move.text)
-            self.units[move.tag] = move.attrib['units']
+            moves[move.tag] =float(move.text)
+            units[move.tag] = move.attrib['units']
             #X_TRANS, Y_TRANS, PISTON, X_TILT, Y_TILT, CLOCK
+
+        self = cls(id=int(xmlnode.attrib['id']),
+                   type_=xmlnode.attrib['type'],
+                   segment=xmlnode.attrib['seg_id'][0:2],
+                   absolute=xmlnode.attrib['absolute'] == 'true',
+                   coords=xmlnode.attrib['coord'], #local or global
+                   stage_type=xmlnode.attrib['stage_type'],  # recenter_fine, fine_only, none
+                   units=units,
+                   moves=moves,
+        )
+
+        return self
         #allowable units:
 		#units="id"
 		#units="meters"
@@ -119,7 +136,7 @@ class SUR(collections.Sequence):
         for grp in self._tree.getroot().iter('GROUP'):
             myupdates = []
             for update in grp.iter('UPDATE'):
-                myupdates.append(Segment_Update(update))
+                myupdates.append(Segment_Update.from_node(update))
             self.groups.append(myupdates)
 
     def __len__(self):
